@@ -11,10 +11,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import model.Customer;
-import model.Sale;
-import model.Salesman;
-
 //USER REPOSITORY to add each line?????
 
 /*catch (Exception e) {
