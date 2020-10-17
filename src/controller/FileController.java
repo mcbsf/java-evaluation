@@ -11,6 +11,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import model.Customer;
+import model.Sale;
+import model.Salesman;
+
 //USER REPOSITORY to add each line?????
 
 /*catch (Exception e) {
@@ -24,7 +28,6 @@ System.out.println("Exception occurred");
 
 // CHAANGE ARRAY LIST TO MAKE BETTER PERFORMANCE? which is better?
 public class FileController {
-	
 	public static ArrayList<File> get_files(String path) {
 
 	    File folder = new File(path);
@@ -65,26 +68,66 @@ public class FileController {
 		return unprocessed_files;
 	}
 
-	public static void process_file(File file){
+	public static void process_file(File file) throws IOException{
+		//add line_index to log mapped errors
+		System.out.println("\nprocessing file " + file.getName());
+		String[] lines = Files.readAllLines(file.toPath()).toArray(new String[0]);
+
+		ArrayList<Customer> customers = new ArrayList();
+		ArrayList<Salesman> salesmen= new ArrayList();
+		ArrayList<Sale> sales= new ArrayList();
+		ArrayList<String[]> others = new ArrayList();
 		
+		for(String line: lines) {
+			System.out.println(line);
+			String[] splitted_line = line.split("ç");
+			String id = splitted_line[0];
+			
+			if(Objects.equals(id, "001")) {
+				Salesman salesman = new Salesman(splitted_line[1], splitted_line[2], splitted_line[3]);
+				salesmen.add(salesman);
+				
+			}else if(Objects.equals(id, "002")){
+				Customer customer = new Customer(splitted_line[1], splitted_line[2], splitted_line[3]);
+				customers.add(customer);
+				
+			}else if(Objects.equals(id, "003")){
+				String[] item_info = splitted_line[2].split("-");
+				Sale sale = new Sale(splitted_line[1], item_info, splitted_line[3]);
+				sales.add(sale);
+				
+			}else {
+				others.add(splitted_line);
+			}
+			
+			for(String attr: splitted_line) {
+				System.out.println("\n   attr: " + attr);
+			}
+			
+		}
+		
+		generate_output(salesmen, customers, sales);
 	}
 	
 	public static ArrayList<File> process_files(ArrayList<File> unprocessed_files) throws IOException{
 		System.out.println("processing files \n");
 		
 		for (File file : unprocessed_files){
-			try {
-				process_file(file);
-			}catch(Exception e) {
-				log_error(e);
-			}
-			
+		   process_file(file);
 		   break;
 	    }
 		return null;
 	}
 	
-	public static void log_error(Exception e) {
+	public static void generate_output(ArrayList<Salesman> salesmen, ArrayList<Customer> customers, ArrayList<Sale> sales) throws IOException{
 		
+		for(Salesman salesman: salesmen) {
+			System.out.println(salesman.name);
+		}
+		
+		for(Customer customer: customers) {
+			System.out.println(customer.name);
+		}
+
 	}
 }
