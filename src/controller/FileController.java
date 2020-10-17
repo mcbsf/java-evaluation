@@ -24,6 +24,7 @@ System.out.println("Exception occurred");
 
 // CHAANGE ARRAY LIST TO MAKE BETTER PERFORMANCE? which is better?
 public class FileController {
+	
 	public static ArrayList<File> get_files(String path) {
 
 	    File folder = new File(path);
@@ -72,9 +73,18 @@ public class FileController {
 		System.out.println("processing files \n");
 		
 		for (File file : unprocessed_files){
-		   process_file(file);
+			try {
+				process_file(file);
+			}catch(Exception e) {
+				log_error(e);
+			}
+			
 		   break;
 	    }
 		return null;
+	}
+	
+	public static void log_error(Exception e) {
+		
 	}
 }
