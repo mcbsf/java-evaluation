@@ -169,7 +169,6 @@ public class FileController {
 		//generate output file and writer
 		String home_path = System.getProperty("user.dir");
 		String output_path = home_path+"/data/out/"+file_name.replace(".", ".done.");
-		File output_file = new File(output_path);
 		FileWriter output_writer = new FileWriter(output_path); 
 		
 		//writing output_info
