@@ -19,16 +19,6 @@ import traits.WorstSalesmanGenerator;
 
 //USER REPOSITORY to add each line?????
 
-/*catch (Exception e) {
-
- *This is a generic Exception handler which means it can handle
- * all the exceptions. This will execute if the exception is not
- * handled by previous catch blocks.
-
-System.out.println("Exception occurred");
-}*/
-
-// CHAANGE ARRAY LIST TO MAKE BETTER PERFORMANCE? which is better?
 public class FileController {
 
 	public static ArrayList<File> get_files(String path, String data_type) {
@@ -87,9 +77,10 @@ public class FileController {
 			try{
 
 				process_file(file);
-
-			}catch (Exception e) {
-				LogController.log_exception(e);
+			}
+			catch (Exception e) {
+				
+				LogController.log_file_exception(e);
 			}
 		}
 		return null;
@@ -138,11 +129,12 @@ public class FileController {
 					sales.add(sale);
 
 				}else {
+				
 					others.add(splitted_line);
 				}
-
-
-			} catch(Exception e){
+			} 
+			catch(Exception e){
+				
 				LogController.log_line_exception(e);
 			}	
 		}
@@ -161,8 +153,9 @@ public class FileController {
 
 		String[] splitted_items = items.split(",");
 
-		//iterate over items to add in an ArrayList of items, each item is described by an ArrayList
+		//iterate over items array to convert them in an ArrayList of items, each item is being described by an ArrayList of Strings
 		for(int i = 0; i<splitted_items.length; i++) {
+			
 			ArrayList<String> item = new ArrayList(Arrays.asList(splitted_items[i].split("-")));
 			sale_info.add(item);
 		}
@@ -171,7 +164,7 @@ public class FileController {
 
 	private static void generate_output(ArrayList<Salesman> salesmen, ArrayList<Customer> customers, ArrayList<Sale> sales, String file_name) throws IOException{
 
-
+		//proccess output info
 		String customers_amount = String.valueOf(customers.size());
 		String salesmen_amount = String.valueOf(salesmen.size());
 		String most_expansive_sale_id = get_most_expansive_sale_id(sales);
@@ -181,13 +174,15 @@ public class FileController {
 		System.out.println("salesmen: " + salesmen_amount);
 		System.out.println("most expansive sale id: " + most_expansive_sale_id);
 		System.out.println("worst salesman: " + worst_salesman);
-
+		
+		//generate output file and writer
 		String home_path = System.getProperty("user.dir");
 		String output_path = home_path+"/data/out/"+file_name.replace(".", ".done.");
 		System.out.println(output_path);
 		File output_file = new File(output_path);
 		FileWriter output_writer = new FileWriter(output_path); 
-
+		
+		//writing output_info
 		output_writer.write(customers_amount+"\n");
 		output_writer.write(salesmen_amount+"\n");
 		output_writer.write(most_expansive_sale_id+"\n");
