@@ -10,6 +10,7 @@ import model.Salesman;
 
 public class WorstSalesmanGenerator {
 	
+	//Class to receive sales and salesman, and return the salesman with the worst performance(sales_amount/salary)
 	public static String get_worst_salesman(ArrayList<Sale> sales, ArrayList<Salesman> salesmen) {
 		
 		Map<String, Float> salesmen_amount = get_salesmen_by_sales_amount(sales);
