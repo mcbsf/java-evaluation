@@ -29,13 +29,13 @@ System.out.println("Exception occurred");
 
 // CHAANGE ARRAY LIST TO MAKE BETTER PERFORMANCE? which is better?
 public class FileController {
-	public static ArrayList<File> get_files(String path) {
+	public static ArrayList<File> get_files(String path, String data_type) {
 
 	    File folder = new File(path);
 	    
 		File[] files = folder.listFiles
 			(
-				(d, name) -> name.endsWith(".dat")
+				(d, name) -> name.endsWith(data_type)
 			);
 	    
 		return new ArrayList<File>(Arrays.asList(files));
@@ -43,15 +43,15 @@ public class FileController {
 	
 	public static ArrayList<File> get_processed_files(ArrayList<File> files, String home_path) {
 		
-		return get_files(home_path+"/data/out");
+		return get_files(home_path+"/data/out", ".dat");
 	}
 	
 	public static ArrayList<File> get_unprocessed_files(String home_path) {
 		
 		ArrayList<File> unprocessed_files= new ArrayList<File>();
 		
-		ArrayList<File> files = get_files(home_path+"/data/in");
-	    ArrayList<File> processed_files = get_files(home_path+"/data/out");
+		ArrayList<File> files = get_files(home_path+"/data/in", ".dat");
+	    ArrayList<File> processed_files = get_files(home_path+"/data/out", ".dat");
 	    
 		
 		for (File file : files){
@@ -88,28 +88,7 @@ public class FileController {
 	
 	
 	
-	private static String get_worst_salesman(ArrayList<Sale> sales, ArrayList<Salesman> salesmen) {
-		// sum_sales/salary
-		Map<String, Float> salesmen_amount = get_salesmen_by_sales_amount(sales);
-		Map<String, Float> salesmen_performance = get_performance_by_salesman(salesmen_amount, salesmen);
-		
-		String worst_salesman_name = "";
-		float worst_salesman_performance = 1000000000;
-		
-		for (Map.Entry<String, Float> entry : salesmen_performance.entrySet()) {
-			
-			String actual_salesman_name = entry.getKey();
-			float actual_performance = entry.getValue();
-		    
-			if(actual_performance<worst_salesman_performance) {
-		    	worst_salesman_performance = actual_performance;
-		    	worst_salesman_name = actual_salesman_name;
-		    }
-			
-			System.out.println(entry.getKey() + "/" + entry.getValue());
-		}
-		return worst_salesman_name;
-	}
+	
 	
 	private static void process_file(File file) throws IOException{
 		//add line_index to log mapped errors
@@ -181,24 +160,6 @@ public class FileController {
 		return sale_info;
 	}
 	
-	private static Map<String, Float> get_performance_by_salesman(Map<String, Float> salesmen_amount,
-			ArrayList<Salesman> salesmen) {
-		
-		Map<String, Float> salesmen_performance = new HashMap<String, Float>();
-		
-		for (Map.Entry<String, Float> entry : salesmen_amount.entrySet()) {
-		    String salesman_name = entry.getKey();
-		    float amount = entry.getValue();
-		    float salary = get_salary_by_salesman_name(salesman_name, salesmen);
-		    System.out.println("salesman "+salesman_name); 
-		    System.out.println(salary);
-		    float performance = amount/salary;
-		    salesmen_performance.put(salesman_name, performance);
-		}
-		return salesmen_performance;
-	}
-	
-	
 	private static void generate_output(ArrayList<Salesman> salesmen, ArrayList<Customer> customers, ArrayList<Sale> sales, String file_name) throws IOException{
 		
 		
@@ -227,6 +188,46 @@ public class FileController {
 		
 	
 
+	}
+	
+	private static String get_worst_salesman(ArrayList<Sale> sales, ArrayList<Salesman> salesmen) {
+		// sum_sales/salary
+		Map<String, Float> salesmen_amount = get_salesmen_by_sales_amount(sales);
+		Map<String, Float> salesmen_performance = get_performance_by_salesman(salesmen_amount, salesmen);
+		
+		String worst_salesman_name = "";
+		float worst_salesman_performance = 1000000000;
+		
+		for (Map.Entry<String, Float> entry : salesmen_performance.entrySet()) {
+			
+			String actual_salesman_name = entry.getKey();
+			float actual_performance = entry.getValue();
+		    
+			if(actual_performance<worst_salesman_performance) {
+		    	worst_salesman_performance = actual_performance;
+		    	worst_salesman_name = actual_salesman_name;
+		    }
+			
+			System.out.println(entry.getKey() + "/" + entry.getValue());
+		}
+		return worst_salesman_name;
+	}
+	
+	private static Map<String, Float> get_performance_by_salesman(Map<String, Float> salesmen_amount,
+			ArrayList<Salesman> salesmen) {
+		
+		Map<String, Float> salesmen_performance = new HashMap<String, Float>();
+		
+		for (Map.Entry<String, Float> entry : salesmen_amount.entrySet()) {
+		    String salesman_name = entry.getKey();
+		    float amount = entry.getValue();
+		    float salary = get_salary_by_salesman_name(salesman_name, salesmen);
+		    System.out.println("salesman "+salesman_name); 
+		    System.out.println(salary);
+		    float performance = amount/salary;
+		    salesmen_performance.put(salesman_name, performance);
+		}
+		return salesmen_performance;
 	}
 	
 	private static float get_salary_by_salesman_name(String name, ArrayList<Salesman>salesmen) {
