@@ -141,7 +141,11 @@ public class FileController {
 	public static ArrayList<File> process_files(ArrayList<File> unprocessed_files) throws IOException{
 		
 		for (File file : unprocessed_files){
-		   process_file(file);
+		   try{
+			   process_file(file);
+		   }catch (Exception e) {
+			   LogController.log_exception(e);
+		   }
 	    }
 		return null;
 	}
