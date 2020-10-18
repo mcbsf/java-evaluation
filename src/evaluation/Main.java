@@ -1,13 +1,10 @@
 package evaluation;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 import controller.FileController;
+import controller.LogController;
 
 public class Main {
 
@@ -18,17 +15,15 @@ public class Main {
 		
 		    try {
 
-			    System.out.println("############testing###########");
-		    	String home_path = System.getProperty("user.dir");
-			    TimeUnit.SECONDS.sleep(10);
+		    	String home_path = System.getProperty("user.dir");    
 				ArrayList<File> unprocessed_files = FileController.get_unprocessed_files(home_path);
-				
 				FileController.process_files(unprocessed_files);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			} 
+		    catch (Exception e) {
+			
+		    	LogController.log_exception(e);
 			}
-		    break;
+
 		}
 	
 	}

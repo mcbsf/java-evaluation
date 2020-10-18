@@ -10,7 +10,7 @@ import model.Salesman;
 
 public class WorstSalesmanGenerator {
 	
-	//Class to receive sales and salesman, and return the salesman with the worst performance(sales_amount/salary)
+	//Class to receive sales and salesmen, and return the salesman with the worst performance(sales_amount/salary) that belongs to salesmen arraylist=
 	public static String get_worst_salesman(ArrayList<Sale> sales, ArrayList<Salesman> salesmen) {
 		
 		Map<String, Float> salesmen_amount = get_salesmen_by_sales_amount(sales);
@@ -29,7 +29,6 @@ public class WorstSalesmanGenerator {
 				worst_salesman_performance = actual_performance;
 				worst_salesman_name = actual_salesman_name;
 			}
-			System.out.println(entry.getKey() + "/" + entry.getValue());
 		}
 		return worst_salesman_name;
 	}
@@ -47,8 +46,6 @@ public class WorstSalesmanGenerator {
 			float performance = amount/salary;
 			
 			salesmen_performance.put(salesman_name, performance);
-			System.out.println("salesman "+salesman_name); 
-			System.out.println(salary);
 			
 		}
 		return salesmen_performance;

@@ -6,10 +6,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 import model.Customer;
@@ -17,7 +14,7 @@ import model.Sale;
 import model.Salesman;
 import traits.WorstSalesmanGenerator;
 
-//USER REPOSITORY to add each line?????
+//missing(no time) - user abstract class and repository, log implementation, a few collection upgrades
 
 public class FileController {
 
@@ -50,8 +47,7 @@ public class FileController {
 
 			for(File processed_file: processed_files) {
 
-				System.out.println("comparing "+ file.getName().replace(".", ".done.")+ " with " + processed_file.getName());
-
+				
 				if(Objects.equals(file.getName().replace(".", ".done."), processed_file.getName())) {
 
 					isProcessed = true;
@@ -61,9 +57,8 @@ public class FileController {
 			if(!isProcessed) {
 
 				unprocessed_files.add(file);
-				System.out.println(file.getName() + " UNPROCESSED");
+				
 			}
-			//System.out.println(file.getName());
 		}
 		return unprocessed_files;
 	}
@@ -80,7 +75,7 @@ public class FileController {
 			}
 			catch (Exception e) {
 				
-				LogController.log_file_exception(e);
+				LogController.log_file_exception(e, file);
 			}
 		}
 		return null;
@@ -91,10 +86,11 @@ public class FileController {
 
 
 	private static void process_file(File file) throws IOException{
-		//add line_index to log mapped errors
-		System.out.println("\nprocessing file " + file.getName());
-		String[] lines = Files.readAllLines(file.toPath()).toArray(new String[0]);
 
+		//add line_index to log mapped line errors
+		int line_index = 0;
+		String[] lines = Files.readAllLines(file.toPath()).toArray(new String[0]);
+		
 		//using linkedList to get better performance
 		LinkedList<Customer> customers = new LinkedList();
 		LinkedList<Salesman> salesmen= new LinkedList();
@@ -106,8 +102,9 @@ public class FileController {
 		//iterate over lines to build models and fill local repositories 
 		for(String line: lines) {
 			try {
+				
+				line_index += 1;
 
-				System.out.println(line);
 				String[] splitted_line = line.split("ç");
 				String id = splitted_line[0];
 
@@ -125,7 +122,6 @@ public class FileController {
 
 					Sale sale = new Sale(splitted_line[1], sale_info, splitted_line[3]);
 					sale.simplify_amount();
-					System.out.println("    SALE "+ String.valueOf(sale.amount) + "\n");
 					sales.add(sale);
 
 				}else {
@@ -135,7 +131,7 @@ public class FileController {
 			} 
 			catch(Exception e){
 				
-				LogController.log_line_exception(e);
+				LogController.log_line_exception(e, file, line_index);
 			}	
 		}
 		ArrayList<Customer> arr_customers = new ArrayList(customers);
@@ -170,15 +166,9 @@ public class FileController {
 		String most_expansive_sale_id = get_most_expansive_sale_id(sales);
 		String worst_salesman = WorstSalesmanGenerator.get_worst_salesman(sales, salesmen);
 
-		System.out.println("customers: " + customers_amount);
-		System.out.println("salesmen: " + salesmen_amount);
-		System.out.println("most expansive sale id: " + most_expansive_sale_id);
-		System.out.println("worst salesman: " + worst_salesman);
-		
 		//generate output file and writer
 		String home_path = System.getProperty("user.dir");
 		String output_path = home_path+"/data/out/"+file_name.replace(".", ".done.");
-		System.out.println(output_path);
 		File output_file = new File(output_path);
 		FileWriter output_writer = new FileWriter(output_path); 
 		
