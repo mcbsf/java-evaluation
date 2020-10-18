@@ -14,8 +14,7 @@ import model.Sale;
 import model.Salesman;
 import traits.WorstSalesmanGenerator;
 
-//missing(no time) - user abstract class and repository, log implementation, a few collection upgrades
-
+//
 public class FileController {
 
 	public static ArrayList<File> get_files(String path, String data_type) {
