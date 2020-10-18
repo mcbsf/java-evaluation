@@ -2,7 +2,7 @@
 java project to process .dat files and generate respective output
 
 
-*CONFIG:
+*  CONFIG:
 
 -Java 11.0.8
 
@@ -12,15 +12,15 @@ java project to process .dat files and generate respective output
 
 
 
-*DEPLOY:
+*  DEPLOY:
 
 -the main is at src/evaluation/Main.java
 
 
 
-*Considerations:
+*  Considerations:
 
--worst salesman ever was defined per file to avoid repititions. 
+-worst salesman ever was defined per file to avoid repititions. its calculated by the division between sales_amount and salary.
 
 -in case you need the full project file, with all config data and so on, please acess the .zip file project https://drive.google.com/file/d/1rWlNq1FrpTtkLehzoS5UgkLqM4VcEWhE/view?usp=sharing
 
