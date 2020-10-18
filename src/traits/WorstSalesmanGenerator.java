@@ -11,6 +11,7 @@ import model.Salesman;
 public class WorstSalesmanGenerator {
 	
 	public static String get_worst_salesman(ArrayList<Sale> sales, ArrayList<Salesman> salesmen) {
+		
 		Map<String, Float> salesmen_amount = get_salesmen_by_sales_amount(sales);
 		Map<String, Float> salesmen_performance = get_performance_by_salesman(salesmen_amount, salesmen);
 
@@ -23,10 +24,10 @@ public class WorstSalesmanGenerator {
 			float actual_performance = entry.getValue();
 
 			if(actual_performance<worst_salesman_performance) {
+				
 				worst_salesman_performance = actual_performance;
 				worst_salesman_name = actual_salesman_name;
 			}
-
 			System.out.println(entry.getKey() + "/" + entry.getValue());
 		}
 		return worst_salesman_name;
@@ -38,13 +39,15 @@ public class WorstSalesmanGenerator {
 		Map<String, Float> salesmen_performance = new HashMap<String, Float>();
 
 		for (Map.Entry<String, Float> entry : salesmen_amount.entrySet()) {
+			
 			String salesman_name = entry.getKey();
 			float amount = entry.getValue();
 			float salary = get_salary_by_salesman_name(salesman_name, salesmen);
-			System.out.println("salesman "+salesman_name); 
-			System.out.println(salary);
 			float performance = amount/salary;
 			salesmen_performance.put(salesman_name, performance);
+			System.out.println("salesman "+salesman_name); 
+			System.out.println(salary);
+			
 		}
 		return salesmen_performance;
 	}
