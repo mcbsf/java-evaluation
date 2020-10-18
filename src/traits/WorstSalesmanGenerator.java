@@ -44,6 +44,7 @@ public class WorstSalesmanGenerator {
 			float amount = entry.getValue();
 			float salary = get_salary_by_salesman_name(salesman_name, salesmen);
 			float performance = amount/salary;
+			
 			salesmen_performance.put(salesman_name, performance);
 			System.out.println("salesman "+salesman_name); 
 			System.out.println(salary);
@@ -53,9 +54,13 @@ public class WorstSalesmanGenerator {
 	}
 	
 	private static float get_salary_by_salesman_name(String name, ArrayList<Salesman>salesmen) {
+		
 		float salary = 0;
+		
 		for(Salesman salesman:salesmen) {
+		
 			if(Objects.equals(salesman.name, name)) {
+			
 				return Float.parseFloat(salesman.salary);
 			}
 		}
