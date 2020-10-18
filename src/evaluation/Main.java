@@ -13,19 +13,22 @@ public class Main {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		
-	    try {
-		    
-	    	String home_path = System.getProperty("user.dir");
-	    	System.out.println("testing");
-		    TimeUnit.SECONDS.sleep(3);
-		    System.out.println("testing2");
-			ArrayList<File> unprocessed_files = FileController.get_unprocessed_files(home_path);
+		while(true) {
 			
-			FileController.process_files(unprocessed_files);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		
+		    try {
+
+			    System.out.println("############testing###########");
+		    	String home_path = System.getProperty("user.dir");
+			    TimeUnit.SECONDS.sleep(10);
+				ArrayList<File> unprocessed_files = FileController.get_unprocessed_files(home_path);
+				
+				FileController.process_files(unprocessed_files);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		    break;
 		}
 	
 	}

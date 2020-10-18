@@ -142,7 +142,6 @@ public class FileController {
 		
 		for (File file : unprocessed_files){
 		   process_file(file);
-		   break;
 	    }
 		return null;
 	}
